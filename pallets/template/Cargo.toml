@@ -1,0 +1,23 @@
+[package]
+name = "pallet-template"
+version = "4.0.0-dev"
+edition.workspace = true
+license = "Unlicense"
+publish = false
+
+[dependencies]
+codec          = { workspace = true }
+scale-info     = { workspace = true, features = ["derive"] }
+frame-support  = { workspace = true, default-features = false }
+frame-system   = { workspace = true, default-features = false }
+sp-std         = { workspace = true, default-features = false }
+
+[features]
+default = ["std"]
+std = [
+    "codec/std",
+    "scale-info/std",
+    "frame-support/std",
+    "frame-system/std",
+    "sp-std/std",
+]
