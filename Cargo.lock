@@ -9580,7 +9580,6 @@ dependencies = [
  "sp-core",
  "sp-inherents",
  "sp-io",
- "sp-keyring",
  "sp-runtime",
  "sp-timestamp",
  "sp-version",

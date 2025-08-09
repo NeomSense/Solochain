@@ -1,0 +1,92 @@
+[package]
+name = "solochain-template-runtime"
+version = "4.0.0-dev"
+description = "Runtime for Solochain Template"
+authors.workspace = true
+homepage.workspace = true
+repository.workspace = true
+edition.workspace = true
+publish = false
+
+[dependencies]
+codec = { workspace = true, features = ["derive"] }
+scale-info = { workspace = true, features = ["derive"] }
+
+
+
+
+# FRAME / SP from workspace (pinned to the SDK tag in the root Cargo.toml)
+frame-executive = { workspace = true }
+frame-support   = { workspace = true }
+frame-system    = { workspace = true }
+
+sp-runtime        = { workspace = true }
+sp-core           = { workspace = true }
+sp-io             = { workspace = true }
+sp-api            = { workspace = true }
+sp-inherents      = { workspace = true }
+sp-timestamp      = { workspace = true }
+sp-block-builder  = { workspace = true }
+sp-version = { workspace = true, default-features = false }
+
+# Pallets
+pallet-timestamp               = { workspace = true }
+pallet-balances                = { workspace = true }
+pallet-aura                    = { workspace = true }
+pallet-grandpa                 = { workspace = true }
+pallet-transaction-payment     = { workspace = true }
+
+# Your local pallets
+messagehash     = { path = "../pallets/messagehash", default-features = false }
+pallet-template = { workspace = true }
+pallet-por      = { workspace = true }
+
+[build-dependencies]
+substrate-wasm-builder = { workspace = true }
+
+
+
+[features]
+default = ["std"]
+
+std = [
+    "codec/std",
+    "scale-info/std",
+    "frame-executive/std",
+    "frame-support/std",
+    "frame-system/std",
+    "sp-runtime/std",
+    "sp-core/std",
+    "sp-io/std",
+    "sp-api/std",
+    "sp-inherents/std",
+    "sp-timestamp/std",
+    "sp-block-builder/std",
+    "pallet-timestamp/std",
+    "pallet-balances/std",
+    "pallet-aura/std",
+    "pallet-grandpa/std",
+    "pallet-transaction-payment/std",
+    "pallet-template/std",
+    "pallet-por/std",
+    "messagehash/std",
+]
+
+runtime-benchmarks = [
+    "frame-system/runtime-benchmarks",
+    "frame-support/runtime-benchmarks",
+    "pallet-balances/runtime-benchmarks",
+    "pallet-timestamp/runtime-benchmarks",
+    "pallet-transaction-payment/runtime-benchmarks",
+]
+
+try-runtime = [
+    "frame-system/try-runtime",
+    "pallet-balances/try-runtime",
+    "pallet-timestamp/try-runtime",
+    "pallet-transaction-payment/try-runtime",
+    "sp-runtime/try-runtime",
+]
+
+# Keep this empty feature to satisfy your build.rs checks (optional)
+metadata-hash = []
