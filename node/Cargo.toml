@@ -1,0 +1,96 @@
+[package]
+name = "solochain-template-node"
+description = "A solochain node template built with Substrate, part of Polkadot SDK."
+version = "0.1.0"
+license = "Unlicense"
+authors.workspace = true
+homepage.workspace = true
+repository.workspace = true
+edition.workspace = true
+publish = false
+build = "build.rs"
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[dependencies]
+clap = { workspace = true, features = ["derive"] }
+frame-benchmarking-cli = { workspace = true }
+frame-metadata-hash-extension = { workspace = true }
+frame-system = { workspace = true }
+futures = { workspace = true, features = ["thread-pool"] }
+jsonrpsee = { workspace = true, features = ["server"] }
+
+# Runtime interface crates (std toggled via feature below)
+sp-api = { workspace = true }
+sp-block-builder = { workspace = true }
+sp-blockchain = { workspace = true }
+sp-consensus-aura = { workspace = true }
+sp-core = { workspace = true }
+sp-genesis-builder = { workspace = true }
+sp-inherents = { workspace = true }
+sp-io = { workspace = true }
+sp-keyring = { workspace = true }
+sp-runtime = { workspace = true }
+sp-timestamp = { workspace = true }
+sp-externalities = { workspace = true }   # <-- ensure it's part of the node graph
+
+# Pallets used by node RPCs/bench
+pallet-transaction-payment = { workspace = true }
+pallet-transaction-payment-rpc = { workspace = true }
+
+# Node stack (std-only; DO NOT toggle features on these)
+sc-cli                  = { workspace = true }
+sc-service              = { workspace = true }
+sc-chain-spec           = { workspace = true }
+sc-rpc                  = { workspace = true }
+sc-rpc-api              = { workspace = true }
+sc-rpc-server           = { workspace = true }
+sc-rpc-spec-v2          = { workspace = true }
+sc-informant            = { workspace = true }
+sc-basic-authorship     = { workspace = true }
+sc-consensus            = { workspace = true }
+sc-consensus-aura       = { workspace = true }
+sc-consensus-grandpa    = { workspace = true }
+sc-executor             = { workspace = true }
+sc-network              = { workspace = true }
+sc-network-light        = { workspace = true }
+sc-network-sync         = { workspace = true }
+sc-network-transactions = { workspace = true }
+sc-offchain             = { workspace = true }
+sc-telemetry            = { workspace = true }
+sc-transaction-pool     = { workspace = true }
+sc-transaction-pool-api = { workspace = true }
+sc-client-api           = { workspace = true }
+
+substrate-frame-rpc-system = { workspace = true }
+
+# Your runtime crate
+solochain-template-runtime = { path = "../runtime", features = ["std"], default-features = false }
+
+[build-dependencies]
+substrate-build-script-utils = { workspace = true }
+
+[features]
+default = ["std"]
+
+# Enable `std` on FRAME/SP crates that actually expose a `std` feature.
+std = [
+    "solochain-template-runtime/std",
+    "frame-system/std",
+
+    "sp-runtime/std",
+    "sp-api/std",
+    "sp-io/std",
+    "sp-core/std",
+    "sp-inherents/std",
+    "sp-genesis-builder/std",
+    "sp-timestamp/std",
+    "sp-block-builder/std",
+    "sp-externalities/std",   # <-- make sure it's std
+
+    "pallet-transaction-payment/std"
+]
+
+runtime-benchmarks = ["solochain-template-runtime/runtime-benchmarks"]
+try-runtime        = ["solochain-template-runtime/try-runtime"]
